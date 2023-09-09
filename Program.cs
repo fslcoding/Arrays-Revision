@@ -1,61 +1,96 @@
 using System;
 
-class Program {
-  public static void Main (string[] args) 
+class Program 
+
+{
+   //A static variable created outside the main method cab be accessed anywhere in the class. This is a global variable which means it can be accessed in both the main method and static methods which exists outside the main method
+  //(a) Creates a 2D array capable of storing the USERNAME and PASSWORD of 3 users.
+  static string [,] array2D = new string[3,2];
+
+  //Main method
+  static void Main (string[] args)
   {
-
-    //An array is a storage container object which can store data of ONLY ONE TYPE (specified at the time of creation)
-    //An array has fixed size again specified during the creation of the array. This cannot be changed.
-    //The first location in array is index location 0 e.g. names[0]
-    
-    //This will create a string array capable of storing 3 strings
-    string [] users1D = new string[3];
-    
-    //This is one method of populating a string array
-    users1D[0] = "Toby";
-    users1D[1]="Gillian";
-    users1D[2]= "Zach";
-    Console.WriteLine("The contents of drawer 1[0] is " + users1D[2]);
-
-    //This will create an int array capable of storing three ints
-    int [] age = new int [3] {15,21,12};//This is an alternative method of populating an array
-
-    Console.WriteLine("The age of the person at position [0] is " + age[0]);
-
-    //This means I have two arrays storing different types of data about the each person
-    //A better way would be to create a 2D array which acts like a spreadsheet
-
-    string [,] users2D = new string[3,2];
-    users2D[0,0] ="toby";
-    users2D[0,1] = 15.ToString();
-    users2D[1,0] = "Gillian";
-    users2D[1,1] = 21.ToString();
-    users2D[2,0] = "Zach";
-    users2D[2,1] = 12.ToString();
-
-    for(int i=0;i<users2D.GetLength(0);i++)
+    //(b) Populates the 2D array with username and passwords of three fictional users.
+    //Nested for loop used to populate 2D array
+    for(int i =0;i<array2D.GetLength(0);i++)
+      for(int j = 0;j<array2D.GetLength(1);j++)
       {
-        for(int j=0;j<users2D.GetLength(1);j++)
+        //This will populate the username column in each row
+        if(j==0)
           {
-            Console.Write(users2D[i,j]+",");
+            Console.WriteLine("Please enter the username:");
+            array2D[i,0] = Console.ReadLine();
           }
-        Console.WriteLine();
+        //This will populate the password column in each row
+        if(j==1)
+          {
+              Console.WriteLine("Please enter the password:");
+              array2D[i,1] = Console.ReadLine();
+          }
       }
-    for(int i=0;i<users2D.GetLength(0);i++)
-      {
-        Console.WriteLine("Enter name");
-        users2D[i,0] = Console.ReadLine();
-        Console.WriteLine("Enter age");
-        users2D[i,1] = Console.ReadLine().ToString();
-      }
-
-    for(int i=0;i<users2D.GetLength(0);i++)
-      {
-        for(int j=0;j<users2D.GetLength(1);j++)
-      {
-        Console.Write(users2D[i,j]+",");
-      }
-        Console.WriteLine();
-      }
+//(c) Prints out the contents of the 2D array.
+for(int i=0;i<array2D.GetLength(0);i++)
+  {
+    for(int j=0;j<array2D.GetLength(1);j++)
+    {
+      Console.Write(array2D[i,j]+",");//Print a row
+    }
+    Console.WriteLine();//Takes a new line after print a row
   }
-}
+//(d) Checks the 2D array to determine if a particular user exists in the array.
+  bool found = false;
+  Console.WriteLine("Enter the username you are searching for");
+  string username = Console.ReadLine();
+  for(int k=0;k<array2D.GetLength(0);k++)
+    {
+      if(array2D[k,0]==username)
+        {
+          found = true;
+          break;
+        }
+    }
+  if(found)//Same as if(found==true)
+  {
+    Console.WriteLine("The user " + username + " was found.");
+  }
+
+  else
+  {
+    Console.WriteLine("The user " + username + " was not found.");
+  }
+
+  //(e) Create a login method - method static void login (string username, string password)
+  Console.WriteLine("Please enter your username");
+  username=Console.ReadLine();//This string has already been created above
+  
+  Console.WriteLine("Please enter your password");
+  string password=Console.ReadLine();
+
+  login(username,password);
+
+  }
+
+  //This method can be called in the main method
+  static void login (string username, string password)
+  {
+    for(int i=0;i<array2D.GetLength(0);i++)
+    {
+      if(array2D[i,0]==username)//If username stored in this row matches username entered
+        if(array2D[i,1]==password)//If username stored in this row matches password entered
+        {
+          Console.WriteLine("You have successfully logged into the program");
+          break;//This ensures the loop doesnt continue to run after the username and password have been correctly entered
+        }
+        else
+        {
+          Console.WriteLine("Your password is not recognised");
+        }
+      else
+      {
+          Console.WriteLine("Your username is not recognised");
+      }
+    }
+      Console.WriteLine("The end of the program");
+      }
+    }
+  
